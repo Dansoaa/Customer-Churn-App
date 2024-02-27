@@ -1,0 +1,20 @@
+credentials:
+  usernames:
+    Dansoaa:
+      email: Dansoaa@gmail.com
+      logged_in: False # Will be managed automatically
+      name: Dansoaa
+      password: '123' # Make sure to enclose in quotes
+    Wilfred:
+      email: Onsongo@gmail.com
+      logged_in: False # Will be managed automatically
+      name: Will
+      password: '123' # Make sure to enclose in quotes
+cookie:
+  expiry_days: 30
+  key: some_signature_key # Must be string
+  name: some_cookie_name
+preauthorized:
+  emails:
+  - melsby@gmail.com
+ 

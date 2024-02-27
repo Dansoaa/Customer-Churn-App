@@ -1,10 +1,12 @@
 import streamlit as st
- 
-st.set_page_config(
-    page_title= 'Project Description',
-    page_icon= ':)',
-    layout= 'wide'
-)
- 
-st.title('Home Page')
+import pandas as pd
+
+def dashboard():
+    st.title('Dashboard Page')
+    st.write('Coming soon...')
+
+
+# Call the data function directly
+if __name__ == '__main__':
+    dashboard()
  
