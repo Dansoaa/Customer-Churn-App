@@ -1,11 +1,17 @@
 import streamlit as st
 import streamlit_authenticator as stauth
+
+import streamlit as st
+
+# Initialize session state
+if 'authentication_status' not in st.session_state:
+    st.session_state.authentication_status = False
  
 import yaml
 from yaml.loader import SafeLoader
- 
+
 # Load YAML configuration
-with open(r'C:/Users/DELL/OneDrive/github/Churn-App/Customer-Churn-App/config.yaml') as file:
+with open(r'C:\Users\USER\OneDrive - Azubi Africa\Desktop\AZUBI AFRICA\LP4Project\Customer-Churn-App\Customer-Churn-App\config.yaml') as file:
     config = yaml.safe_load(file)
 # Initialize authenticator
 authenticator = stauth.Authenticate(
