@@ -1,7 +1,11 @@
 import streamlit as st
 import streamlit_authenticator as stauth
 
-import streamlit as st
+st.set_page_config(
+    page_title= "Home page",
+    #page_icon=':house:',
+    layout='wide'
+)
 
 # Initialize session state
 if 'authentication_status' not in st.session_state:
@@ -31,4 +35,3 @@ elif st.session_state["authentication_status"] is False:
     st.error('Username/password is incorrect')
 elif st.session_state["authentication_status"] is None:
     st.warning('Please enter your username and password')
- 
