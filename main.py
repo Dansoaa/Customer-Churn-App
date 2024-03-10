@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit_authenticator as stauth
+from io import open
 
 st.set_page_config(
     page_title= "Home page",
@@ -15,7 +16,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 # Load YAML configuration
-with open(r'C:\Users\USER\OneDrive - Azubi Africa\Desktop\AZUBI AFRICA\LP4Project\Customer-Churn-App\CustomerChurnApp\config.yaml') as file:
+with open(r'C:\Users\USER\OneDrive - Azubi Africa\Desktop\AZUBI AFRICA\LP4Project\Customer-Churn-App\CustomerChurnApp\Customer-Churn-App\config.yaml') as file:
     config = yaml.safe_load(file)
 # Initialize authenticator
 authenticator = stauth.Authenticate(
