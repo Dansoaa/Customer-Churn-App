@@ -3,10 +3,11 @@ import streamlit_authenticator as stauth
  
 import yaml
 from yaml.loader import SafeLoader
- 
+
 # Load YAML configuration
 with open(r'C:/Users/DELL/OneDrive/github/Churn-App/Customer-Churn-App/config.yaml') as file:
     config = yaml.safe_load(file)
+
 # Initialize authenticator
 authenticator = stauth.Authenticate(
     config['credentials'],
@@ -15,14 +16,18 @@ authenticator = stauth.Authenticate(
     config['cookie']['expiry_days'],
     config['preauthorized']
 )
-# Perform authentication
-authenticator.login()
-if st.session_state["authentication_status"]:
+
+# Assuming the 'fields' parameter needs to be included based on your error message
+# Since the exact syntax is not provided, this is a hypothetical example:
+
+name, authentication_status, username = authenticator.login(fields=['username', 'password'])
+
+# Rest of your authentication handling code
+if authentication_status:
     authenticator.logout()
-    st.write(f'Welcome *{st.session_state["name"]}*')
+    st.write(f'Welcome *{name}*')
     st.title('Some content')
-elif st.session_state["authentication_status"] is False:
+elif authentication_status is False:
     st.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] is None:
+elif authentication_status is None:
     st.warning('Please enter your username and password')
- 
