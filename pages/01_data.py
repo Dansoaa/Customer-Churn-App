@@ -1,16 +1,13 @@
 
-# Import necessary libraries
 import streamlit as st
-import pandas as pd
 import pyodbc
-
-# Title of the page
-st.title("Vodafone Churn Data")
-
+import pandas as pd
  
-@st.cache_resource(show_spinner='Connecting to Database......')
+st.title('VODAFONE CUSTOMER CHURN')
+ 
+# Function to initialize database connection
 def initialize_connection():
-    connection = pyodbc.connect(
+    return pyodbc.connect(
         "DRIVER={SQL Server};SERVER="
         + st.secrets["SERVER"]
         +";DATABASE="
@@ -20,31 +17,43 @@ def initialize_connection():
         +";PWD="
         + st.secrets["PWD"]
     )
-    return connection
-   
-conn = initialize_connection()
  
+# Function to query database
 def query_database(query):
     with conn.cursor() as cur:
         cur.execute(query)
         rows = cur.fetchall()
-        df = pd.DataFrame. from_records(data=rows, columns=[ column[0] for column in cur.description])
+        df = pd.DataFrame.from_records(data=rows, columns=[column[0] for column in cur.description])
     return df
  
-@st.cache_data()
-def select_all_features():
-    query = "SELECT * FROM LP2_Telco_churn_first_3000"
-    df = query_database(query)
-    return df
+# Check if the user is logged in
+if 'name' not in st.session_state:
+    st.error("You need to log in to access this page.")
+else:
+    # Establish database connection
+    conn = initialize_connection()
  
-@st.cache_data()
-def select_numeric_features():
-    query = "SELECT * FROM LP2_Telco_churn_first_3000"
-    df = query_database(query)
-    numeric_df = df.select_dtypes(include=['number'])
-    return numeric_df
+    with st.sidebar:
+        st.title("Logout")
+        if st.button("Logout"):
+            del st.session_state["name"]
  
-if __name__ == "__main__":
+    st.title("Data Page")
+    st.write("This is the data page.")
+ 
+    @st.cache_data()
+    def select_all_features():
+        query = "SELECT * FROM LP2_Telco_churn_first_3000"
+        df = query_database(query)
+        return df
+ 
+    @st.cache_data()
+    def select_numeric_features():
+        query = "SELECT * FROM LP2_Telco_churn_first_3000"
+        df = query_database(query)
+        numeric_df = df.select_dtypes(include=['number'])
+        return numeric_df
+ 
     col1, col2 = st.columns(2)
  
     with col1:
@@ -57,37 +66,6 @@ if __name__ == "__main__":
         data = select_all_features()
     elif selected_option == "Numeric features":
         data = select_numeric_features()
-    
-
-
-
-st.dataframe(data)
-def load_dataset(file_path):
-    df = pd.read_csv(file_path) if file_path.endswith('.csv') else pd.read_excel(file_path)
-    return df
  
-# Function to display dataset overview
-def display_dataset_overview(data):
-    st.subheader('Dataset Overview')
-    st.write(data)
-# Summary statistics
-    st.subheader('Summary Statistics')
-    st.write(data.describe())
-
-st.title('Telco data')
- 
-# Add selectbox to choose dataset
-selected_dataset = st.selectbox('Select Dataset', ['LP2_Telco_churn_first_3000', 'Telco-churn-second-2000.csv', 'LP2_Telco-churn-last-2000.csv'])
- 
-if selected_dataset == 'LP2_Telco_churn_first_3000':
-    # Load data from the first dataset
-    data = query_database("SELECT gender, tenure, Contract, Churn, SeniorCitizen, MonthlyCharges, TotalCharges FROM LP2_Telco_churn_first_3000")
-else:
-    # Load data from the selected file
-    file_path = f"data/{selected_dataset}"
-    data = load_dataset(file_path)
-
- # Display dataset overview and visualizations
-display_dataset_overview(data)
-
+    st.dataframe(data)
  

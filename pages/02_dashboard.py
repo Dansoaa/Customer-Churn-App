@@ -150,6 +150,13 @@ def display_visualizations(data):
 # Display the plot
          st.pyplot(fig)
  
+
+ # Check if the user is logged in
+if 'name' not in st.session_state:
+    st.error("You need to log in to access this page.")
+else:
+    # Establish database connection
+    conn = initialize_connection()
 # Function to perform Exploratory Data Analysis (EDA)
 def perform_eda(data):
     st.subheader('Exploratory Data Analysis (EDA)')
@@ -200,9 +207,8 @@ else:
 # Perform the selected analysis
 if selected_analysis == 'Exploratory Data Analysis (EDA)':
     perform_eda(data)
+# Display visualizations (always shown regardless of the selected analysis)
+    display_visualizations(data)
 else:
     calculate_kpis(data)
  
-# Display visualizations (always shown regardless of the selected analysis)
-display_visualizations(data)
-   
