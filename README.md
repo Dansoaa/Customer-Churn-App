@@ -3,7 +3,7 @@ An app for the deployment of the Vodafone Churn machine learning
 <a name="readme-top"></a>
 
 <div align="center">
-  <h1><b>Attrition Meter</b></h1>
+  <h1><b>Customer Churn App</b></h1>
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -120,13 +120,13 @@ Clone this repository to your desired folder:
 
 ```sh
   cd my-folder
-  git clone https://github.com/coderacheal/Attrition-Meter.git
+  git clone https://github.com/Dansoaa/Customer-Churn-App.git
 ```
 
 Change into the cloned repository
 
 ```sh
-  cd Attrition-Meter
+  cd Customer-Churn-App
   
 ```
 
@@ -147,10 +147,10 @@ Activate the virtual environment
 
 ### Install
 
-Here, you need to recursively install the packages in the `requirements.txt` file using the command below 
+Here, you need to recursively install the packages in the `requirement.txt` file using the command below 
 
 ```sh
-   pip install -r requirements.txt
+   pip install -r requirement.txt
 ```
 
 
@@ -160,7 +160,7 @@ To run the project, execute the following command:
 
 
 ```sh
-    streamlit run 1_🏠_Home.py
+    streamlit run main.py
 
 ```
 
@@ -177,6 +177,11 @@ To run the project, execute the following command:
 
 - GitHub: [GitHub Profile](https://github.com/Dansoaa)
 - LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/akosua-danso-6ab721235/)
+
+🕵🏽‍♀️ **Onsongo Wilfred**
+
+- GitHub: [GitHub Profile](https://github.com/OnsongoN)
+- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/wilfred-onsongo/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

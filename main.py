@@ -1,9 +1,14 @@
 import streamlit as st
+<<<<<<< HEAD
 import streamlit_authenticator as stauth
 from io import open
 
 import yaml
 
+=======
+import yaml
+ 
+>>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
 # Load YAML configuration
 try:
     with open('config.yaml') as file:
@@ -40,7 +45,11 @@ def layout_for_logged_in_users(username):
     ```
     # activate virtual environment
     env/scripts/activate
+<<<<<<< HEAD
     streamlit run main.py
+=======
+    streamlit run 1_🏠_Home.py
+>>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
     ```
  
     **Machine Learning Integration**
@@ -49,7 +58,11 @@ def layout_for_logged_in_users(username):
     - Probability Estimates: Gain insights into the likelihood of predicted outcomes.
  
     **Need Help?**
+<<<<<<< HEAD
     For collaborations contact me at willsfred9@gmail.com.
+=======
+    For collaborations contact me at dansoaa2012@gmail.com.
+>>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
     """)
  
 def authenticate(username, password):
@@ -86,4 +99,12 @@ else:
     st.success("Enter username and password to use the app.")
     st.write("Test Accounts:")
     for username in config['credentials']['usernames']:
+<<<<<<< HEAD
         st.write(f"Username: {username}, Password: {config['credentials']['usernames'][username]['password']}")
+=======
+        st.write(f"Username: {username}, Password: {config['credentials']['usernames'][username]['password']}")
+ 
+ 
+       
+ 
+>>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
