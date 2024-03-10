@@ -205,4 +205,3 @@ else:
  
 # Display visualizations (always shown regardless of the selected analysis)
 display_visualizations(data)
-   
