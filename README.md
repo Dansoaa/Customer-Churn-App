@@ -173,7 +173,7 @@ To run the project, execute the following command:
 
 ## 👥 Authors <a name="authors"></a>
 
-🕵🏽‍♀️ **Racheal Appiah-kubi**
+🕵🏽‍♀️ **Akosua Dansoaa Danso**
 
 - GitHub: [GitHub Profile](https://github.com/Dansoaa)
 - LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/akosua-danso-6ab721235/)
