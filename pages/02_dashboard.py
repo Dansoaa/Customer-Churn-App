@@ -4,11 +4,17 @@ import pyodbc
 import seaborn as sns
 import matplotlib.pyplot as plt
  
+# Page title and icon
+st.set_page_config(
+    page_title="Dashboard",
+    page_icon=":chart_with_upwards_trend:"
+)
+ 
 # Function to connect to the database
 @st.cache_resource(show_spinner='Connecting to Database......')
 def initialize_connection():
     connection = pyodbc.connect(
-        "DRIVER={SQL Server};SERVER="
+        "DRIVER={ODBC Driver 18 for SQL Server};SERVER="
         + st.secrets["SERVER"]
         +";DATABASE="
         + st.secrets["DATABASE"]
@@ -96,6 +102,8 @@ def display_visualizations(data):
         monthly_charges_plot.set_xlabel('Monthly Charges')
         monthly_charges_plot.set_ylabel('Frequency')
         st.pyplot(fig=monthly_charges_plot.figure)
+
+       
  
     # Chart for Total Charges
     with col2:
@@ -107,36 +115,83 @@ def display_visualizations(data):
         total_charges_plot.set_xlabel('Total Charges')
         total_charges_plot.set_ylabel('Frequency')
         st.pyplot(fig=total_charges_plot.figure)
+
+    with col1:
+        senior_citizens_data = data[data['SeniorCitizen'] == 1]
+
+# Map 'True' and 'False' to 'Yes' and 'No' for the 'Churn' column
+        senior_citizens_data['Churn'] = senior_citizens_data['Churn'].map({True: 'Yes', False: 'No'})
+
+# Count the number of churns (Yes or No) among Senior Citizens
+        senior_citizens_churn_counts = senior_citizens_data['Churn'].value_counts()
+
+# Visualization
+        st.write("### Churn Distribution Among Senior Citizens")
+        plt.figure(figsize=(10, 6))
+        churn_plot = sns.barplot(x=senior_citizens_churn_counts.index, y=senior_citizens_churn_counts.values, palette='pastel')
+        churn_plot.set_title('Churn Distribution Among Senior Citizens')
+        churn_plot.set_xlabel('Churn')
+        churn_plot.set_ylabel('Count')
+        st.pyplot(plt)
+
+    with col2:
+         data['Churn'] = data['Churn'].map({True: 'Yes', False: 'No'})
+
+# Count the number of churns (Yes or No) for the entire dataset
+         churn_counts = data['Churn'].value_counts()
+
+# Visualization as a pie chart
+         fig, ax = plt.subplots()
+         ax.pie(churn_counts, labels=churn_counts.index, autopct='%1.1f%%', startangle=90, colors=['#ff9999','#66b3ff'])
+         ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+         plt.title(' Churn Distribution')
+
+# Display the plot
+         st.pyplot(fig)
  
 # Function to perform Exploratory Data Analysis (EDA)
 def perform_eda(data):
     st.subheader('Exploratory Data Analysis (EDA)')
  
-    # Add EDA code here
-    # You can display descriptive statistics, visualizations, etc.
  
 # Function to calculate Key Performance Indicators (KPIs)
 def calculate_kpis(data):
     st.subheader('Key Performance Indicators (KPIs)')
+     # Calculate KPIs
+    total_customers = len(data)
+    average_tenure = data['tenure'].mean()
+    total_monthly_charges = data['MonthlyCharges'].sum()
+    churned_customers = len(data == 'Yes')
+    churn_rate= (churned_customers / total_customers) * 100
+    total_revenue = data['TotalCharges'].sum()
+    average_revenue = total_revenue / total_customers
  
-    # Add KPI calculation code here
-    # You can calculate churn rate, average revenue, etc.
+ 
+     # Create a DataFrame to hold KPIs
+    kpi_data = {
+         'KPI Name': ['Total Customers', 'Average Tenure', 'Total Monthly Charges','churned_customers','churn_rate','total_revenue', 'average_revenue'],
+         'Value': [total_customers, f"{average_tenure:.2f}", f"${total_monthly_charges:.2f}", churned_customers,f"{churn_rate:.2f}",f"${total_revenue:.2f}", f"${average_revenue:.2f}"]
+     }
+    kpi_df = pd.DataFrame(kpi_data)
+   
+    st.table(kpi_df)
  
 # Load data from the database
 conn = initialize_connection()
  
 # Title of the dashboard
-st.title('Telco Churn Analysis')
+st.title('Churn Analysis')
  
 # Add selectbox to choose between EDA and KPIs
 selected_analysis = st.selectbox('Select Analysis Type', ['Exploratory Data Analysis (EDA)', 'Key Performance Indicators (KPIs)'])
  
 # Add selectbox to choose dataset
-selected_dataset = st.selectbox('Select Dataset', ['LP2_Telco_churn_first_3000', 'Telco-churn-last-2000.xlsx', 'LP2_Telco-churn-second-2000.csv'])
+selected_dataset = st.selectbox('Select Dataset', ['LP2_Telco_churn_first_3000', 'Telco-churn-second-2000.xlsx', 'LP2_Telco-churn-last-2000.csv'])
  
 if selected_dataset == 'LP2_Telco_churn_first_3000':
     # Load data from the first dataset
-    data = query_database("SELECT gender, tenure, Contract, PaymentMethod, MonthlyCharges, TotalCharges FROM LP2_Telco_churn_first_3000")
+    data = query_database("SELECT gender, tenure, Contract, PaymentMethod, SeniorCitizen, Churn, MonthlyCharges, TotalCharges FROM LP2_Telco_churn_first_3000")
 else:
     # Load data from the selected file
     file_path = f"data/{selected_dataset}"
@@ -150,4 +205,4 @@ else:
  
 # Display visualizations (always shown regardless of the selected analysis)
 display_visualizations(data)
- 
+   

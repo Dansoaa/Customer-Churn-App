@@ -57,6 +57,7 @@ if __name__ == "__main__":
         data = select_all_features()
     elif selected_option == "Numeric features":
         data = select_numeric_features()
+    
 
 
 
@@ -80,7 +81,7 @@ selected_dataset = st.selectbox('Select Dataset', ['LP2_Telco_churn_first_3000',
  
 if selected_dataset == 'LP2_Telco_churn_first_3000':
     # Load data from the first dataset
-    data = query_database("SELECT gender, tenure, Contract,Churn,SeniorCitizen, MonthlyCharges, TotalCharges FROM LP2_Telco_churn_first_3000")
+    data = query_database("SELECT gender, tenure, Contract, Churn, SeniorCitizen, MonthlyCharges, TotalCharges FROM LP2_Telco_churn_first_3000")
 else:
     # Load data from the selected file
     file_path = f"data/{selected_dataset}"

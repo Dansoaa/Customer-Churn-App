@@ -1,7 +1,9 @@
-<a name="Customer-Churn-App"></a>
+# Customer-Churn-App
+An app for the deployment of the Vodafone Churn machine learning
+<a name="readme-top"></a>
 
 <div align="center">
-  <h1><b>Customer Churn Application</b></h1>
+  <h1><b>Attrition Meter</b></h1>
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -9,7 +11,7 @@
 # 📗 Table of Contents
 
 - [📗 Table of Contents](#-table-of-contents)
-- [Customer Churn Application ](#Customer-Churn-Application-)
+- [Churn App ](#Vodafone-prediction-)
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
   - [Key Features ](#key-features-)
@@ -27,29 +29,27 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# Customer Churn Application <a name="about-project"></a>
+# Churn App <a name="about-project"></a>
 
-**Customer Churn Application** is a data application that allows users to interact with a machine learning model, view data visualizations on the data and see the values of their input saved for future use.
+**Vodafone Churn App** is a data application that allows users to interact with a machine learning model, view data visualizations on the data and see the churn rate prediction of vodafone.
 
 Features
-
-1. **CustomerID**: Unique identifier for each customer
-2. **gender**: Whether the customer is a male or a female
-3. **SeniorCitizen**: Whether the customer is a senior citizen or not (1, 0)
-4. **Partner**: Whether the customer has a partner or not (Yes, No)
-5. **Dependent**: Whether the customer has dependents or not (Yes, No)
-6. **PhoneService**: Whether the customer has a phone service or not (Yes, No)
-7. **MultipeLines**: Whether the customer has multiple lines (Yes, No, No phone service)
-8. **InternetService**: Customer’s internet service provider (DSL, Fiber optic, No)
-9. **OnlineSecurity**: Whether the customer has online security (Yes, No, No internet service)
-10. **OnlineBackup**: Whether the customer has an online backup (Yes, No, No internet service)
-11. **DeviceProtection**: Whether the customer has device protection (Yes, No, No internet service)
-12. **TechSupport**: Whether the customer has tech support (Yes, No, No internet service)
-13. **StreamingTV**: Whether the customer streams TV (Yes, No, No internet service)
-14. **StreamingMovies**: Whether the customer streams movies (Yes, No, No internet service)
-15. **Contract**: The contract term of the customer (Month-to-month, One year, Two years)
-16. **PaperlessBilling**:** Whether the customer does paperless Billing or not (True, False)
-17. **PaymentMethod**: The customer’s payment method (Electronic check, Mailed check, Bank transfer (automatic), Credit card (automatic))
+1. **Gender** -- Whether the customer is a male or a female
+2. **SeniorCitizen** -- Whether a customer is a senior citizen or not
+3. **Partner** -- Whether the customer has a partner or not (Yes, No)
+4. **Dependents** -- Whether the customer has dependents or not (Yes, No)
+5. **Tenure** -- Number of months the customer has stayed with the company
+6. **Phone Service** -- Whether the customer has a phone service or not (Yes, No)
+7. **MultipleLines** -- Whether the customer has multiple lines or not
+8. **InternetService** -- Customer's internet service provider (DSL, Fiber Optic, No)
+9. **OnlineSecurity** -- Whether the customer has online security or not (Yes, No, No Internet)
+10. **OnlineBackup** -- Whether the customer has online backup or not (Yes, No, No Internet)
+11. **DeviceProtection** -- Whether the customer has device protection or not (Yes, No, No internet service)
+12. **TechSupport** -- Whether the customer has tech support or not (Yes, No, No internet)
+13. **StreamingTV** -- Whether the customer has streaming TV or not (Yes, No, No internet service)
+14. **StreamingMovies** -- Whether the customer has streaming movies or not (Yes, No, No Internet service)
+15. **Contract** -- The contract term of the customer (Month-to-Month, One year, Two year)
+16. **PaperlessBilling** -- Whether the customer has paperless billing or not (Yes, No)
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -173,11 +173,10 @@ To run the project, execute the following command:
 
 ## 👥 Authors <a name="authors"></a>
 
-🕵🏽‍♀️ **Racheal Appiah-kubi**
+🕵🏽‍♀️ **Akosua Dansoaa Danso**
 
-- GitHub: [GitHub Profile](https://github.com/coderacheal)
-- Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
+- GitHub: [GitHub Profile](https://github.com/Dansoaa)
+- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/akosua-danso-6ab721235/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -224,3 +223,5 @@ I would like to thank all the free available resource made available online
 This project is [MIT](./LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
