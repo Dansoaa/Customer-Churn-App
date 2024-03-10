@@ -1,11 +1,21 @@
 import streamlit as st
 import streamlit_authenticator as stauth
+
+st.set_page_config(
+    page_title= "Home page",
+    #page_icon=':house:',
+    layout='wide'
+)
+
+# Initialize session state
+if 'authentication_status' not in st.session_state:
+    st.session_state.authentication_status = False
  
 import yaml
 from yaml.loader import SafeLoader
 
 # Load YAML configuration
-with open(r'C:/Users/DELL/OneDrive/github/Churn-App/Customer-Churn-App/config.yaml') as file:
+with open(r'C:\Users\USER\OneDrive - Azubi Africa\Desktop\AZUBI AFRICA\LP4Project\Customer-Churn-App\CustomerChurnApp\config.yaml') as file:
     config = yaml.safe_load(file)
 
 # Initialize authenticator
@@ -29,5 +39,9 @@ if authentication_status:
     st.title('Some content')
 elif authentication_status is False:
     st.error('Username/password is incorrect')
+<<<<<<< HEAD
 elif authentication_status is None:
+=======
+elif st.session_state["authentication_status"] is None:
+>>>>>>> 412ce7d60c1185e4371603e515a5c043cbdfcf36
     st.warning('Please enter your username and password')
