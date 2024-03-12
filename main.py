@@ -45,8 +45,7 @@ def layout_for_logged_in_users(username):
 <<<<<<< HEAD
     streamlit run main.py
 =======
-    streamlit run 1_🏠_Home.py
->>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
+   36e7b4cc491
     ```
  
     **Machine Learning Integration**
