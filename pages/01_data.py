@@ -24,7 +24,7 @@ def read_csv_from_url(url):
         return None
  
 # Define the URL to the CSV file on GitHub
-csv_url = 'https://github.com/Samidirbsa/P4-Embedding-Machine-Learning-Models-in-GUIs/raw/main/data/LP2_Telco-churn-second-2000.csv'
+csv_url = 'https://github.com/Dansoaa/Customer-Churn-App/blob/main/data/ml_dataset.csv'
  
 # Read the CSV file from the URL
 data = read_csv_from_url(csv_url)
