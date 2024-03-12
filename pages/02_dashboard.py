@@ -212,8 +212,5 @@ if selected_analysis == 'Exploratory Data Analysis (EDA)':
 else:
     calculate_kpis(data)
  
-<<<<<<< HEAD
 # Display visualizations (always shown regardless of the selected analysis)
 display_visualizations(data)
-=======
->>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
