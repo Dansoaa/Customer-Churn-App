@@ -1,56 +1,44 @@
 
 import streamlit as st
-import pyodbc
 import pandas as pd
+import requests
+from io import StringIO
  
 st.title('VODAFONE CUSTOMER CHURN')
- 
-# Function to initialize database connection
-def initialize_connection():
-    return pyodbc.connect(
-        "DRIVER={SQL Server};SERVER="
-        + st.secrets["SERVER"]
-        +";DATABASE="
-        + st.secrets["DATABASE"]
-        +";UID="
-        + st.secrets["UID"]
-        +";PWD="
-        + st.secrets["PWD"]
-    )
- 
-# Function to query database
-def query_database(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        rows = cur.fetchall()
-        df = pd.DataFrame.from_records(data=rows, columns=[column[0] for column in cur.description])
-    return df
- 
-# Check if the user is logged in
 if 'name' not in st.session_state:
     st.error("You need to log in to access this page.")
-else:
-    # Establish database connection
-    conn = initialize_connection()
  
-    with st.sidebar:
-        st.title("Logout")
-        if st.button("Logout"):
-            del st.session_state["name"]
+# Function to read CSV files from URL
+def read_csv_from_url(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            csv_data = response.text
+            df = pd.read_csv(StringIO(csv_data))
+            return df
+        else:
+            st.error("Failed to download CSV file from the specified URL.")
+            return None
+    except Exception as e:
+        st.error(f"Error occurred while downloading CSV file: {e}")
+        return None
  
+# Define the URL to the CSV file on GitHub
+csv_url = 'https://github.com/Samidirbsa/P4-Embedding-Machine-Learning-Models-in-GUIs/raw/main/data/LP2_Telco-churn-second-2000.csv'
+ 
+# Read the CSV file from the URL
+data = read_csv_from_url(csv_url)
+ 
+if data is not None:
     st.title("Data Page")
     st.write("This is the data page.")
  
     @st.cache_data()
-    def select_all_features():
-        query = "SELECT * FROM LP2_Telco_churn_first_3000"
-        df = query_database(query)
+    def select_all_features(df):
         return df
  
     @st.cache_data()
-    def select_numeric_features():
-        query = "SELECT * FROM LP2_Telco_churn_first_3000"
-        df = query_database(query)
+    def select_numeric_features(df):
         numeric_df = df.select_dtypes(include=['number'])
         return numeric_df
  
@@ -63,9 +51,9 @@ else:
         pass
  
     if selected_option == "All features":
-        data = select_all_features()
+        data_to_display = select_all_features(data)
     elif selected_option == "Numeric features":
-        data = select_numeric_features()
+        data_to_display = select_numeric_features(data)
  
-    st.dataframe(data)
+    st.dataframe(data_to_display)
  
