@@ -1,14 +1,11 @@
 import streamlit as st
-<<<<<<< HEAD
 import streamlit_authenticator as stauth
 from io import open
 
 import yaml
 
-=======
-import yaml
+
  
->>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
 # Load YAML configuration
 try:
     with open('config.yaml') as file:
@@ -99,12 +96,4 @@ else:
     st.success("Enter username and password to use the app.")
     st.write("Test Accounts:")
     for username in config['credentials']['usernames']:
-<<<<<<< HEAD
         st.write(f"Username: {username}, Password: {config['credentials']['usernames'][username]['password']}")
-=======
-        st.write(f"Username: {username}, Password: {config['credentials']['usernames'][username]['password']}")
- 
- 
-       
- 
->>>>>>> 50844ea08be302e4d3a486312840b36e7b4cc491
