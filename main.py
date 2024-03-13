@@ -96,3 +96,5 @@ else:
     st.write("Test Accounts:")
     for username in config['credentials']['usernames']:
         st.write(f"Username: {username}, Password: {config['credentials']['usernames'][username]['password']}")
+      
+    st.image('asset/Churn image.jfif', use_column_width=True)
