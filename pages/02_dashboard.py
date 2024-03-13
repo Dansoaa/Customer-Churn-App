@@ -1,42 +1,11 @@
 import streamlit as st
 import pandas as pd
-import pyodbc
 import seaborn as sns
 import matplotlib.pyplot as plt
  
-# Page title and icon
-st.set_page_config(
-    page_title="Dashboard",
-    page_icon=":chart_with_upwards_trend:"
-)
- 
-# Function to connect to the database
-@st.cache_resource(show_spinner='Connecting to Database......')
-def initialize_connection():
-    connection = pyodbc.connect(
-        "DRIVER={ODBC Driver 18 for SQL Server};SERVER="
-        + st.secrets["SERVER"]
-        +";DATABASE="
-        + st.secrets["DATABASE"]
-        +";UID="
-        + st.secrets["UID"]
-        +";PWD="
-        + st.secrets["PWD"]
-    )
-    return connection
- 
-# Function to execute SQL query and return DataFrame
-@st.cache_data()
-def query_database(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        rows = cur.fetchall()
-        df = pd.DataFrame.from_records(data=rows, columns=[column[0] for column in cur.description])
-    return df
- 
-# Function to load dataset from file
-def load_dataset(file_path):
-    df = pd.read_csv(file_path) if file_path.endswith('.csv') else pd.read_excel(file_path)
+# Function to load dataset from CSV file URL
+def load_dataset_from_csv(csv_url):
+    df = pd.read_csv(csv_url)
     return df
  
 # Function to display visualizations for each feature
@@ -102,8 +71,6 @@ def display_visualizations(data):
         monthly_charges_plot.set_xlabel('Monthly Charges')
         monthly_charges_plot.set_ylabel('Frequency')
         st.pyplot(fig=monthly_charges_plot.figure)
-
-       
  
     # Chart for Total Charges
     with col2:
@@ -118,13 +85,13 @@ def display_visualizations(data):
 
     with col1:
         senior_citizens_data = data[data['SeniorCitizen'] == 1]
-
+ 
 # Map 'True' and 'False' to 'Yes' and 'No' for the 'Churn' column
         senior_citizens_data['Churn'] = senior_citizens_data['Churn'].map({True: 'Yes', False: 'No'})
-
+ 
 # Count the number of churns (Yes or No) among Senior Citizens
         senior_citizens_churn_counts = senior_citizens_data['Churn'].value_counts()
-
+ 
 # Visualization
         st.write("### Churn Distribution Among Senior Citizens")
         plt.figure(figsize=(10, 6))
@@ -133,82 +100,75 @@ def display_visualizations(data):
         churn_plot.set_xlabel('Churn')
         churn_plot.set_ylabel('Count')
         st.pyplot(plt)
-
+ 
     with col2:
          data['Churn'] = data['Churn'].map({True: 'Yes', False: 'No'})
-
+ 
 # Count the number of churns (Yes or No) for the entire dataset
          churn_counts = data['Churn'].value_counts()
-
+ 
 # Visualization as a pie chart
          fig, ax = plt.subplots()
          ax.pie(churn_counts, labels=churn_counts.index, autopct='%1.1f%%', startangle=90, colors=['#ff9999','#66b3ff'])
          ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
+ 
          plt.title(' Churn Distribution')
-
+ 
 # Display the plot
          st.pyplot(fig)
  
-
- # Check if the user is logged in
-if 'name' not in st.session_state:
-    st.error("You need to log in to access this page.")
-else:
-    # Establish database connection
-    conn = initialize_connection()
 # Function to perform Exploratory Data Analysis (EDA)
 def perform_eda(data):
     st.subheader('Exploratory Data Analysis (EDA)')
  
+    # Add EDA code here
+    # You can display descriptive statistics, visualizations, etc.
  
 # Function to calculate Key Performance Indicators (KPIs)
 def calculate_kpis(data):
     st.subheader('Key Performance Indicators (KPIs)')
-     # Calculate KPIs
+ 
+    # Calculate KPIs
     total_customers = len(data)
     average_tenure = data['tenure'].mean()
-    total_monthly_charges = data['MonthlyCharges'].sum()
-    churned_customers = len(data == 'Yes')
-    churn_rate= (churned_customers / total_customers) * 100
+    contract_distribution = data['Contract'].value_counts(normalize=True) * 100
+    payment_method_distribution = data['PaymentMethod'].value_counts(normalize=True) * 100
+    average_monthly_charges = data['MonthlyCharges'].mean()
+   
+    # Convert 'TotalCharges' to numeric, ignoring errors (coercing non-numeric values to NaN)
+    data['TotalCharges'] = pd.to_numeric(data['TotalCharges'], errors='coerce')
+   
+    # Remove NaN values before calculating sum
+    data = data.dropna(subset=['TotalCharges'])
+   
     total_revenue = data['TotalCharges'].sum()
-    average_revenue = total_revenue / total_customers
  
- 
-     # Create a DataFrame to hold KPIs
+    # Create a DataFrame to hold KPIs
     kpi_data = {
-         'KPI Name': ['Total Customers', 'Average Tenure', 'Total Monthly Charges','churned_customers','churn_rate','total_revenue', 'average_revenue'],
-         'Value': [total_customers, f"{average_tenure:.2f}", f"${total_monthly_charges:.2f}", churned_customers,f"{churn_rate:.2f}",f"${total_revenue:.2f}", f"${average_revenue:.2f}"]
-     }
+        'KPI Name': ['Total Customers', 'Average Tenure (in months)', 'Contract Distribution', 'Payment Method Distribution', 'Average Monthly Charges', 'Total Revenue'],
+        'Value': [total_customers, f"{average_tenure:.2f}", contract_distribution, payment_method_distribution, f"${average_monthly_charges:.2f}", f"${total_revenue:.2f}"]
+    }
     kpi_df = pd.DataFrame(kpi_data)
    
     st.table(kpi_df)
  
-# Load data from the database
-conn = initialize_connection()
- 
 # Title of the dashboard
-st.title('Churn Analysis')
+st.title('Telco Churn Analysis')
+ 
+# Load data from the CSV file
+csv_url = 'https://raw.githubusercontent.com/Dansoaa/Customer-Churn-App/main/data/df_churn_first_3000.csv'
+data = load_dataset_from_csv(csv_url)
  
 # Add selectbox to choose between EDA and KPIs
 selected_analysis = st.selectbox('Select Analysis Type', ['Exploratory Data Analysis (EDA)', 'Key Performance Indicators (KPIs)'])
  
-# Add selectbox to choose dataset
-selected_dataset = st.selectbox('Select Dataset', ['LP2_Telco_churn_first_3000', 'Telco-churn-second-2000.xlsx', 'LP2_Telco-churn-last-2000.csv'])
- 
-if selected_dataset == 'LP2_Telco_churn_first_3000':
-    # Load data from the first dataset
-    data = query_database("SELECT gender, tenure, Contract, PaymentMethod, SeniorCitizen, Churn, MonthlyCharges, TotalCharges FROM LP2_Telco_churn_first_3000")
-else:
-    # Load data from the selected file
-    file_path = f"data/{selected_dataset}"
-    data = load_dataset(file_path)
- 
 # Perform the selected analysis
 if selected_analysis == 'Exploratory Data Analysis (EDA)':
-    perform_eda(data)
+ display_visualizations(data)
+       
 # Display visualizations (always shown regardless of the selected analysis)
-    display_visualizations(data)
-else:
-    calculate_kpis(data)
  
+ 
+# Perform KPI calculation if selected
+if selected_analysis == 'Key Performance Indicators (KPIs)':
+    calculate_kpis(data)
